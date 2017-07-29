@@ -5,8 +5,10 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour {
 
     public GameObject Enemy_Basic;
+    public float SpawnDistanceToPlayer = 75;
 
     GameObject player;
+    
 
     Vector3 spawnLocation;
 
@@ -18,8 +20,9 @@ public class EnemySpawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        Vector3 spawnLocation = new Vector3(Random.Range(-10.0f, 10.0f)*10, 0, Random.Range(-10.0f, 10.0f)*10);
-        GameObject SpawnedEnemy = Instantiate(Enemy_Basic, spawnLocation, Quaternion.identity);
+        Vector3 spawnLocation = (player.transform.position - new Vector3(Random.Range(-10.0f, 10.0f), 0, Random.Range(-10.0f, 10.0f))).normalized * SpawnDistanceToPlayer;
+
+        GameObject SpawnedEnemy = Instantiate(Enemy_Basic, new Vector3(spawnLocation.x, 0, spawnLocation.z), Quaternion.identity);
         SpawnedEnemy.gameObject.SetActive(true);
     }
 }
