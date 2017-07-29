@@ -23,6 +23,7 @@ public class EnemySpawner : MonoBehaviour {
         Vector3 spawnLocation = (player.transform.position - new Vector3(Random.Range(-10.0f, 10.0f), 0, Random.Range(-10.0f, 10.0f))).normalized * SpawnDistanceToPlayer;
 
         GameObject SpawnedEnemy = Instantiate(Enemy_Basic, new Vector3(spawnLocation.x, 0, spawnLocation.z), Quaternion.identity);
+        SpawnedEnemy.gameObject.transform.SetParent(this.gameObject.transform);
         SpawnedEnemy.gameObject.SetActive(true);
     }
 }
