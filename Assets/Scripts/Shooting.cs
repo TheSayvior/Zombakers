@@ -9,40 +9,39 @@ public class Shooting : MonoBehaviour
 
     PlayerBehavior _playerBehavior;
 
-    RaycastHit hit;
+    
+    Ray ray;
+
 
     Vector3 pos = new Vector3();
-    Vector3 c;
 
     // Use this for initialization
     void Start()
     {
         _playerBehavior = GameObject.FindGameObjectWithTag("Player").gameObject.GetComponent<PlayerBehavior>();
-        c = Camera.main.transform.position;
+
+       
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void FixedUpdate() // Fixed update will lock the frames pr sec so it will make sure to run this code
     {
+        RaycastHit hit;
 
         if (Input.GetMouseButton(0))
         {
-
-            Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 2));
-
-            Vector3 fwd = pos.normalized;
-            Debug.DrawLine(c, fwd.normalized * 50, Color.red);
-
-
-            if (Physics.Raycast(c, fwd, 40))
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
             {
-
-                Debug.DrawLine(c, fwd * 10, Color.red);
-
-                print("There is something in front of the object!");
+                if(hit.transform.gameObject.tag == "Enemy")
+                {
+                    Destroy(hit.transform.gameObject);
+                }
+                Debug.Log(hit.transform.gameObject.name);
             }
 
-            Debug.Log("Recieving Mouse input");
+
+            
         }
     }
 
